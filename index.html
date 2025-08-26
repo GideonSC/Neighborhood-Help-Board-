@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neighborhood Help Board</title>
+  <!-- Font Awesome Free CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <h1 class="brand">🛠️ Neighborhood Help Board</h1>
+      <nav class="nav">
+        <a href="#/" class="nav-link" data-link>Home</a>
+        <a href="#/post" class="nav-link" data-link>Post Help</a>
+        <a href="#/posts" class="nav-link" data-link>Browse</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <footer class="footer container">
+    <small>Built with HTML, CSS, JavaScript • Data stored locally (localStorage)</small>
+  </footer>
+
+  <!-- Templates -->
+  <template id="home-tpl">
+    <section class="page">
+      <div class="hero card">
+        <div>
+          <h2>Connect with people near you</h2>
+          <p class="lead">Borrow a charger, find a tutor, sell used textbooks, or offer help — fast and local.</p>
+          <div class="cta">
+            <a class="btn primary" href="#/post">Create a Post</a>
+            <a class="btn outline" href="#/posts">Browse Posts</a>
+          </div>
+        </div>
+        <div class="hero-illus">📬</div>
+      </div>
+
+      <section class="how card">
+        <h3>How it works</h3>
+        <ol>
+          <li>Post what you need or what you can offer.</li>
+          <li>Include a contact method and location.</li>
+          <li>Mark as fulfilled when resolved.</li>
+        </ol>
+      </section>
+    </section>
+  </template>
+
+  <template id="post-tpl">
+    <section class="page">
+      <h2>Create a Post</h2>
+      <form id="post-form" class="card form-card" aria-label="Create post">
+        <div class="row">
+          <label class="field">
+            Type
+            <select name="type" required>
+              <option value="request">Request</option>
+              <option value="offer">Offer</option>
+            </select>
+          </label>
+          <label class="field">
+            Category
+            <select name="category" required>
+              <option value="general">General</option>
+              <option value="study">Study/Tutoring</option>
+              <option value="items">Items/Tools</option>
+              <option value="ride">Ride/Transport</option>
+              <option value="for-sale">For Sale</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">Title
+          <input name="title" maxlength="120" placeholder="e.g., Need a phone charger for 1 hour" required>
+        </label>
+
+        <label class="field">Description
+          <textarea name="description" rows="4" placeholder="Add useful details (what, when, where)..." required></textarea>
+        </label>
+
+        <div class="row">
+          <label class="field">Location/Area
+            <input name="location" placeholder="e.g., Hostel B, Block 2" required>
+          </label>
+          <label class="field">Contact (optional)
+            <input name="contact" placeholder="e.g., 0803..., @username, email">
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="field">Tags (comma separated)
+            <input name="tags" placeholder="e.g., charger, urgent">
+          </label>
+          <label class="field">Expires (optional)
+            <input type="date" name="expires">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Post</button>
+          <button class="btn outline" type="reset"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+        </div>
+      </form>
+    </section>
+  </template>
+
+  <template id="posts-tpl">
+    <section class="page">
+      <h2>Browse Posts</h2>
+
+      <div class="card filters" aria-hidden="false">
+        <form id="filters" class="filters-form" novalidate>
+          <div class="row">
+            <label class="field">Type
+              <select name="type">
+                <option value="">Any</option>
+                <option value="request">Request</option>
+                <option value="offer">Offer</option>
+              </select>
+            </label>
+            <label class="field">Category
+              <select name="category">
+                <option value="">Any</option>
+                <option value="general">General</option>
+                <option value="study">Study/Tutoring</option>
+                <option value="items">Items/Tools</option>
+                <option value="ride">Ride/Transport</option>
+                <option value="for-sale">For Sale</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="field">Status
+              <select name="status">
+                <option value="">Any</option>
+                <option value="open">Open</option>
+                <option value="fulfilled">Fulfilled</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="field">Search
+              <input name="q" placeholder="Search title, description, tags, location">
+            </label>
+            <label class="field">Location
+              <input name="location" placeholder="Filter by area (optional)">
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div id="posts-list" class="grid-list"></div>
+      <p id="empty" class="muted" hidden>No posts found. Try different filters or <a href="#/post">create one</a>.</p>
+    </section>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
