@@ -14,7 +14,7 @@ function timeAgo(iso){
   if (diff < 10) return 'just now';
   const units = [
     ['y', 31536000], ['mo', 2592000], ['w', 604800],
-    ['d', 86400], ['h', 3600], ['m', 60], ['s',1)
+    ['d', 86400], ['h', 3600], ['m', 60], ['s', 1]   // ✅ fixed closing bracket
   ];
   for (const [n, s] of units){
     const v = Math.floor(diff/s);
@@ -28,7 +28,16 @@ const db = {
   getAll(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []}catch{return []} },
   save(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); },
   add(post){ const list = db.getAll(); list.unshift(post); db.save(list); return post; },
-  update(id, patch){ const list = db.getAll(); const i = list.findIndex(p=>p.id===id); if (i>=0){ list[i] = {...list[i], ...patch}; db.save(list); return list[i]; } return null; },
+  update(id, patch){ 
+    const list = db.getAll(); 
+    const i = list.findIndex(p=>p.id===id); 
+    if (i>=0){ 
+      list[i] = {...list[i], ...patch}; 
+      db.save(list); 
+      return list[i]; 
+    } 
+    return null; 
+  },
   remove(id){ db.save(db.getAll().filter(p=>p.id!==id)); }
 };
 
@@ -70,7 +79,9 @@ function renderTemplate(tplId, afterRender){
 
 function updateActiveNav(){
   const path = location.hash.replace(/^#/, '') || '/';
-  document.querySelectorAll('.nav-link').forEach(a=> a.classList.toggle('active', a.getAttribute('href')===('#'+path)));
+  document.querySelectorAll('.nav-link').forEach(a=> 
+    a.classList.toggle('active', a.getAttribute('href')===('#'+path))
+  );
 }
 
 // Post form logic
@@ -105,6 +116,7 @@ function initPosts(){
   const postsList = $('#posts-list');
   const empty = $('#empty');
   const filters = document.getElementById('filters');
+
   function applyFilters(){
     const f = Object.fromEntries(new FormData(filters).entries());
     const q = (f.q||'').toLowerCase();
@@ -122,9 +134,11 @@ function initPosts(){
       return true;
     });
     postsList.innerHTML = '';
-    if (!list.length){ empty.hidden = false; return; } empty.hidden = true;
+    if (!list.length){ empty.hidden = false; return; } 
+    empty.hidden = true;
     list.forEach(p => postsList.appendChild(createPostCard(p)));
   }
+
   filters.addEventListener('input', debounce(applyFilters, 200));
   applyFilters();
 }
@@ -134,7 +148,6 @@ function createPostCard(p){
   article.className = 'post card';
   article.dataset.id = p.id;
   const tagsHtml = (p.tags||[]).map(t=>`<span class="badge">#${escapeHtml(t)}</span>`).join(' ');
-  const statusTxt = p.status === 'open' ? 'Open' : 'Fulfilled';
   article.innerHTML = `
     <div class="badges"><span class="badge">${escapeHtml(p.type)}</span> <span class="badge">${escapeHtml(p.category)}</span> ${tagsHtml}</div>
     <h3>${escapeHtml(p.title)}</h3>
@@ -169,7 +182,6 @@ function createPostCard(p){
   const commentForm = article.querySelector('.comment-form');
 
   likeBtn.addEventListener('click', ()=>{
-    // naive "me" user like toggling - in this local app likes are not per user system; we store likedBy includes 'me' for toggling
     const current = db.getAll().find(x=>x.id===p.id);
     if (!current) return;
     const liked = current.likedBy && current.likedBy.includes('me');
@@ -214,10 +226,8 @@ function createPostCard(p){
     const current = db.getAll().find(x=>x.id===p.id);
     current.comments = [...(current.comments||[]), comment];
     db.update(current.id, {comments: current.comments});
-    // update UI
     renderComments(p.id, commentListEl);
     commentForm.reset();
-    // update global card counts and list - quick approach: re-render posts list
     if (location.hash.replace(/^#/, '') === '/posts') {
       initPosts();
     }
@@ -244,6 +254,10 @@ function renderComments(postId, container){
 }
 
 // Helpers
-function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
-function debounce(fn, wait){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); } }
-
+function escapeHtml(s){ 
+  return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); 
+}
+function debounce(fn, wait){ 
+  let t; 
+  return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); } 
+}
