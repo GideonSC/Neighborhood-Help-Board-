@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <div class="container">
-      <h1 class="brand"> Neighborhood Help Board</h1>
+      <h1 class="brand">Neighborhood Help Board</h1>
       <nav class="nav">
         <a href="#/" class="nav-link" data-link>Home</a>
         <a href="#/post" class="nav-link" data-link>Post Help</a>
@@ -27,7 +27,7 @@
   <main id="app" class="container"></main>
 
   <footer class="footer container">
-    <small>By Group 18</small>
+    <small>Group 18 </small>
   </footer>
 
   <!-- Templates -->
@@ -120,4 +120,51 @@
       <h2>Browse Posts</h2>
 
       <div class="card filters" aria-hidden="false">
-        <form id="filte
+        <form id="filters" class="filters-form" novalidate>
+          <div class="row">
+            <label class="field">Type
+              <select name="type">
+                <option value="">Any</option>
+                <option value="request">Request</option>
+                <option value="offer">Offer</option>
+              </select>
+            </label>
+            <label class="field">Category
+              <select name="category">
+                <option value="">Any</option>
+                <option value="general">General</option>
+                <option value="study">Study/Tutoring</option>
+                <option value="items">Items/Tools</option>
+                <option value="ride">Ride/Transport</option>
+                <option value="for-sale">For Sale</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="field">Status
+              <select name="status">
+                <option value="">Any</option>
+                <option value="open">Open</option>
+                <option value="fulfilled">Fulfilled</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="field">Search
+              <input name="q" placeholder="Search title, description, tags, location">
+            </label>
+            <label class="field">Location
+              <input name="location" placeholder="Filter by area (optional)">
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div id="posts-list" class="grid-list"></div>
+      <p id="empty" class="muted" hidden>No posts found. Try different filters or <a href="#/post">create one</a>.</p>
+    </section>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
