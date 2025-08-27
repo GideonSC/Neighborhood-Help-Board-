@@ -279,4 +279,3 @@ themeBtn.addEventListener("click", () => {
     themeBtn.innerHTML = `<i class="fa-solid fa-moon"></i>`;
   }
 });
-
