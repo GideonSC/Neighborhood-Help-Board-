@@ -71,3 +71,14 @@
   .hero{flex-direction:column-reverse;align-items:flex-start}
   .nav a{display:none}
 }
+/* Light mode (default) */
+
+/* Dark mode */
+body.dark {
+  --bg: #121212;
+  --card: #1e1e1e;
+  --muted: #9ca3af;
+  --text: #e5e7eb;
+  --accent: #34d399;
+  --accent-2: #2dd4bf;
+}
