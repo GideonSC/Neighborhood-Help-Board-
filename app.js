@@ -1,6 +1,4 @@
-/* Market-ready Neighborhood Help Board - SPA with localStorage
-   Features: posts, likes, comments, timestamps, filters, inline expandable comments
-*/
+
 const STORAGE_KEY = 'nhb_market_v2';
 
 // Utilities
